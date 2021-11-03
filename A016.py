@@ -1,31 +1,17 @@
 import sys
+def test(str1, str2):
+    if len(str1) > len(str2):
+        str1, str2 = str2, str1
+    max_length = 0
+    i = 0
+    while i + max_length < len(str1):
+        while i + max_length < len(str1) and str1[i:i + max_length + 1] in str2:
+            max_length += 1
+        i += 1
+    return max_length
 
-
-def test(ctx):
-    stack = []
-    l = []
-    counter = 0
-    for i in ctx:
-        if i == '"' in stack:
-            l.append("".join(stack[1::]))
-            stack = []
-            counter += 1
-        elif i == " " and '"' not in stack:
-            if len(stack) != 0:
-                l.append("".join(stack[0::]))
-                stack = []
-                counter += 1
-        else:
-            stack.append(i)
-    if len(stack) != 0:
-        l.append("".join(stack[0::]))
-        counter += 1
-    print(counter)
-    for j in l:
-        print(j)
-
-
+list_t = []
 for line in sys.stdin:
-    test(line.strip())
-
+    list_t.append(line.strip())
+print(test(*list_t))
 

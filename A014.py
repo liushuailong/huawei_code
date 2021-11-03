@@ -1,24 +1,54 @@
 """
 描述
-公元前五世纪，我国古代数学家张丘建在《算经》一书中提出了“百鸡问题”：鸡翁一值钱五，鸡母一值钱三，鸡雏三值钱一。百钱买百鸡，问鸡翁、鸡母、鸡雏各几何？
-现要求你打印出所有花一百元买一百只鸡的方式。
+根据输入的日期，计算是这一年的第几天。
+保证年份为4位数且日期合法。
+进阶：时间复杂度：，空间复杂度：
 输入描述：
-输入任何一个整数，即可运行程序。
+输入一行，每行空格分割，分别是年，月，日
 
 输出描述：
- 输出有数行，每行三个整数，分别代表鸡翁，母鸡，鸡雏的数量
+输出是这一年的第几天
 """
-
-
 import sys
 
-def test(ctx):
-    for x in range(0, 20):
-        if (100 - 7*x) % 4 == 0:
-            y = int((100 - 7*x) / 4)
-            if y < 0:
-                continue
-            z = 100 - x -y
-            print("{} {} {}".format(x, y, z))
+
+
+month_day = {
+    1: 31,
+    2: 28,
+    3: 31,
+    4: 30,
+    5: 31,
+    6: 30,
+    7: 31,
+    8: 31,
+    9: 30,
+    10: 31,
+    11: 30,
+    12: 31
+}
+
+def is_runian(year):
+    if year % 4 == 0 and year % 100 != 0:
+        return True
+    if year % 400 == 0:
+        return True
+    return False
+
+
+def test(year, month, day):
+    res = 0
+    for i in range(1, month):
+        if i == 2:
+            if is_runian(year):
+                res += 29
+            else:
+                res += month_day[i]
+            continue
+        res += month_day[i]
+    return res + day
+
 for line in sys.stdin:
-    test(line.strip())
+    print(test(*[int(i) for i in line.strip().split(" ")]))
+
+
